@@ -76,7 +76,7 @@ impl AppState {
             latest_weight_version: Arc::new(AtomicU64::new(0)),
             active_instances: Arc::new(RwLock::new(Vec::new())),
             local_instances: Arc::new(DashMap::new()),
-            load_balance_state: Arc::new(LoadBalanceState::new(50)),
+            load_balance_state: Arc::new(LoadBalanceState::new(150)),
         }
     }
 

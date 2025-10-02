@@ -47,9 +47,11 @@ pub fn stats_check_worker(state: AppState) {
             let active_instances = state.active_instances.read().await;
             for instance in active_instances.iter() {
                 let url = format!("{}/get_server_info", instance.endpoint());
-                if let Ok(resp) = state.client.get(&url).send().await {
+                if let Ok(resp) = state.client.get(&url).timeout(Duration::from_secs(1)).send().await {
                     let response_json = resp.json::<serde_json::Value>().await.unwrap();
                     update_instance_stats(&state, instance, response_json);
+                } else {
+                    log::warn!("Timeout when query server info at {url}!");
                 }
             }
             // Reset assigned batches counter after each stats check cycle

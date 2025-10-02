@@ -22,7 +22,7 @@ pub struct Args {
     #[arg(long, default_value = "0.0.0.0:5000")]
     pub bind_addr: String,
     
-    #[arg(long, value_name = "COUNT", default_value = "10")]
+    #[arg(long, value_name = "COUNT", default_value = "4")]
     pub max_assigned_batches_per_stats_check: Option<usize>,
 }
 
@@ -79,7 +79,7 @@ pub async fn load_config(args: &Args) -> Result<Config> {
             weight_sender_rpyc_endpoints: vec![],
             num_mooncake_groups: 1,
             num_mooncake_engines_per_group: 1,
-            max_assigned_batches_per_stats_check: 10,
+            max_assigned_batches_per_stats_check: 4,
             train_batch_size: None,
         }
     };
