@@ -525,7 +525,7 @@ pub async fn update_weight_version(
     
     for instance in instances {
         if let Some(instance_state) = state.instances.get(&instance.addr) {
-            let pending = instance_state.pending_requests.load(Ordering::Relaxed);
+            let pending = instance_state.pending_batches.load(Ordering::Relaxed);
             if pending > 0 {
                 log::error!("Instance {} has {} pending requests during weight version update", 
                     instance.endpoint(), pending);
@@ -542,7 +542,7 @@ pub async fn update_weight_version(
         if !active_instances.iter().any(|i| i.addr == instance_state.instance.addr) {
             active_instances.push(instance_state.instance);
         }
-        log::debug!("Push local instance {} to active instances, pending {}", instance_state.instance.endpoint(), instance_state.pending_requests.load(Ordering::Relaxed));
+        log::debug!("Push local instance {} to active instances, pending {}", instance_state.instance.endpoint(), instance_state.pending_batches.load(Ordering::Relaxed));
     }
     drop(active_instances);
     

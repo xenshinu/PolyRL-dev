@@ -108,7 +108,7 @@ pub struct Config {
     pub weight_sender_rpyc_endpoints: Vec<SocketAddr>,
     pub num_mooncake_groups: usize,
     pub num_mooncake_engines_per_group: usize,
-    pub max_pending_requests_per_instance: usize,
+    pub max_assigned_batches_per_stats_check: usize,
     pub train_batch_size: Option<usize>,
 }
 

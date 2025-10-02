@@ -48,6 +48,7 @@ async fn main() -> Result<()> {
     log::info!("  bind_addr: {}", args.bind_addr);
     
     let state = AppState::new(config);
+    let state_for_worker = state.clone();
 
     let app = Router::new()
         .route("/health", get(health_check))
@@ -64,6 +65,8 @@ async fn main() -> Result<()> {
         .route("/update_metrics", post(update_metrics))
         .route("/abort_local_requests", post(abort_local_requests))
         .with_state(state);
+
+    instance_manager::stats_check_worker(state_for_worker);
 
     let addr: SocketAddr = args.bind_addr.parse()?;
     let listener = tokio::net::TcpListener::bind(&addr).await?;
